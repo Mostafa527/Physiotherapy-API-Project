@@ -25,6 +25,11 @@ class clinic_detail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, pk, format=None):
+        clinic = self.get_object(pk)
+        clinic.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 class ClinicList(APIView):
     def get(self,request):
         clinics = Clinic.objects.all()
