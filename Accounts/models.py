@@ -2,7 +2,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
-
+USER_TYPE_CHOICES = (
+    ('admin', 'admin'),
+    ('doctor', 'doctor'),
+    ('patient', 'patient'),
+    ('staff', 'staff'),
+    ('user_admin', 'user_admin'),
+)
 class NewUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(_('email address'), unique=True)
@@ -16,6 +22,8 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     start_date = models.DateTimeField(default=timezone.now)
     about = models.TextField(_(
         'about'), max_length=500, blank=True)
+    user_type = models.CharField(max_length=40, choices=USER_TYPE_CHOICES ,default=USER_TYPE_CHOICES[3][1],blank=True,null=True)
+
 
     def __str__(self):
         return self.username
