@@ -9,6 +9,22 @@ USER_TYPE_CHOICES = (
     ('staff', 'staff'),
     ('user_admin', 'user_admin'),
 )
+class CustomAccountManager(BaseUserManager):
+
+    def create_superuser(self, email, username, first_name, password, **other_fields):
+
+        other_fields.setdefault('is_staff', True)
+        other_fields.setdefault('is_superuser', True)
+        other_fields.setdefault('is_active', True)
+
+        if other_fields.get('is_staff') is not True:
+            raise ValueError(
+                'Superuser must be assigned to is_staff=True.')
+        if other_fields.get('is_superuser') is not True:
+            raise ValueError(
+                'Superuser must be assigned to is_superuser=True.')
+
+        return self.create_user(email, username, first_name, password, **other_fields)
 class NewUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(_('email address'), unique=True)
