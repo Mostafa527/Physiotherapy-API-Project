@@ -38,12 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'Clinic',
     'Accounts'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -79,7 +81,7 @@ WSGI_APPLICATION = 'Physiotherapy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'MyPhysioDBProj',
+        'NAME': 'MyPhysioDBProj2',
         'USER': 'postgres',
         'PASSWORD': '42105518',
         'HOST': 'localhost',
@@ -87,7 +89,7 @@ DATABASES = {
     }
 }
 
-
+AUTH_USER_MODEL = 'Accounts.NewUser'
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 

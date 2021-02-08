@@ -1,8 +1,13 @@
 
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+
+from rest_framework.authtoken.models import Token
+
+
+
 USER_TYPE_CHOICES = (
     ('admin', 'admin'),
     ('doctor', 'doctor'),
@@ -26,6 +31,7 @@ class CustomAccountManager(BaseUserManager):
                 'Superuser must be assigned to is_superuser=True.')
 
         return self.create_user(email, username, first_name, password, **other_fields)
+
     def create_user(self, email, username, first_name, password, **other_fields):
 
         if not email:
@@ -52,6 +58,8 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     start_date = models.DateTimeField(default=timezone.now)
     about = models.TextField(_(
         'about'), max_length=500, blank=True)
+
+
     user_type = models.CharField(max_length=40, choices=USER_TYPE_CHOICES ,default=USER_TYPE_CHOICES[3][1],blank=True,null=True)
 
     is_staff = models.BooleanField(default=False)
@@ -63,6 +71,11 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name']
+
     def __str__(self):
         return self.username
+
+
+
+
 
