@@ -4,7 +4,7 @@ from .serializers import *
 from rest_framework.views import APIView
 from django.http import Http404
 from .serializers import UserSerializer
-
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 
@@ -14,7 +14,16 @@ class RegisterView(APIView):
         data = UserSerializer(admins, many=True).data
         return Response(data)
 
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
 
+            return Response({
+                "user": serializer.data,
+                # "token": serializer.token
+            })
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class user_detail(APIView):
 
