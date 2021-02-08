@@ -25,6 +25,19 @@ class CustomAccountManager(BaseUserManager):
                 'Superuser must be assigned to is_superuser=True.')
 
         return self.create_user(email, username, first_name, password, **other_fields)
+    def create_user(self, email, username, first_name, password, **other_fields):
+
+        if not email:
+            raise ValueError(_('You must provide an email address'))
+
+        email = self.normalize_email(email)
+        user = self.model(email=email, username=username,
+                          first_name=first_name, **other_fields)
+        user.set_password(password)
+
+        user.save()
+        return user
+
 class NewUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(_('email address'), unique=True)
