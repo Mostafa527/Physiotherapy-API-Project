@@ -3,10 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-
 from rest_framework.authtoken.models import Token
-
-
 
 USER_TYPE_CHOICES = (
     ('admin', 'admin'),
