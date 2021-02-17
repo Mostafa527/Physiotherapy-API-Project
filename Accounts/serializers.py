@@ -32,17 +32,23 @@ class UserSerializer(serializers.ModelSerializer):
                 "Password should be atleast %s characters long." % getattr(settings, 'PASSWORD_MIN_LENGTH', 8)
             )
         return value
-    
+
     def create(self, validated_data):
         email = validated_data.get('email')
         username = validated_data.get('username')
         password = validated_data.get('password')
         Address = validated_data.get('Address')
+        # user_type = validated_data.get('user_type')
         first_name = validated_data.get('first_name')
         last_name = validated_data.get('last_name')
-        Contact =validated_data.get('Contact')
+        Contact = validated_data.get('Contact')
         try:
-            user = NewUser.objects.create(username=username,first_name=first_name,last_name=last_name, email=email, Address=Address,Contact=Contact)
+            user = NewUser.objects.create(username=username, first_name=first_name, last_name=last_name, email=email,
+                                          Address=Address, Contact=Contact)
+            user.user_type = 'staff'
+            user.set_password(password)
+            user.is_active = True
+
             user.save()
             return user
         except Exception as e:
