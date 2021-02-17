@@ -19,3 +19,9 @@ class UserSerializer(serializers.ModelSerializer):
             'password2': {'write_only': True},
         }
 
+    def validate(self, data):
+        password = data.get('password')
+        confirm_password = data.pop('password2')
+        if password != confirm_password:
+            raise ValidationError("Passwords doesn't match.")
+        return data
