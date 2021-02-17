@@ -88,3 +88,9 @@ class LogoutView(APIView):
     def post(self, request):
         django_logout(request)
         return Response(status=204)
+
+class Logout(APIView):
+    def get(self, request, format=None):
+        request.user.auth_token.delete()
+        django_logout(request)
+        return Response(status=status.HTTP_200_OK)
