@@ -1,13 +1,20 @@
 
+
 from .models import *
+from django.contrib.auth import login as django_login, logout as django_logout
 from .serializers import *
+from rest_framework import generics, status, views, permissions
 from rest_framework.views import APIView
+from rest_framework.authentication import TokenAuthentication
 from django.http import Http404
 from .serializers import UserSerializer
-from rest_framework import viewsets, status
-from rest_framework.response import Response
-from django.contrib.auth import login as django_login, logout as django_logout
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import GenericAPIView
+from rest_framework import viewsets, status
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+
 
 class RegisterView(APIView):
     def get(self, request):
@@ -75,3 +82,9 @@ class LoginView(GenericAPIView):
             'user_type': user.user_type
         })
 
+class LogoutView(APIView):
+    authentication_classes = (TokenAuthentication,)
+
+    def post(self, request):
+        django_logout(request)
+        return Response(status=204)
