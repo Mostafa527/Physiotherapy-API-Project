@@ -79,3 +79,19 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get("email", "")
         password = data.get("password", "")
+
+        if email and password:
+            user = auth.authenticate(username=email, password=password)
+            if user:
+                if user.is_active:
+                    data["user"] = user
+                else:
+                    msg = "User is deactivated."
+                    raise exceptions.ValidationError(msg)
+            else:
+                msg = "Unable to login with given credentials."
+                raise exceptions.ValidationError(msg)
+        else:
+            msg = "Must provide username and password both."
+            raise exceptions.ValidationError(msg)
+        return data
