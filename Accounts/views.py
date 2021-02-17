@@ -6,7 +6,8 @@ from django.http import Http404
 from .serializers import UserSerializer
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-
+from django.contrib.auth import login as django_login, logout as django_logout
+from rest_framework.generics import GenericAPIView
 
 class RegisterView(APIView):
     def get(self, request):
@@ -52,4 +53,15 @@ class user_detail(APIView):
         snippet = self.get_object(pk)
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class LoginView(GenericAPIView):
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        django_login(request, user)
+        token, created = Token.objects.get_or_create(user=user)
+        django_login(request, user)
 
