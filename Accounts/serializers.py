@@ -25,3 +25,10 @@ class UserSerializer(serializers.ModelSerializer):
         if password != confirm_password:
             raise ValidationError("Passwords doesn't match.")
         return data
+
+    def validate_password(self, value):
+        if len(value) < getattr(settings, 'PASSWORD_MIN_LENGTH', 8):
+            raise serializers.ValidationError(
+                "Password should be atleast %s characters long." % getattr(settings, 'PASSWORD_MIN_LENGTH', 8)
+            )
+        return value
