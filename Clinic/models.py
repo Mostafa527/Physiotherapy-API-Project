@@ -1,4 +1,5 @@
 from django.db import models
+#Clinic Model
 class Clinic(models.Model):
     Name=models.CharField(max_length=200,unique=True)
     Address=models.CharField(max_length=300)
