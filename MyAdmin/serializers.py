@@ -27,3 +27,41 @@ class AdminProfileSerializer(serializers.ModelSerializer):
         myadmin, created = MyAdmin.objects.update_or_create(user=user,
                                                             Admin_Clinic=validated_data.pop('Admin_Clinic'))
         return myadmin
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user')
+
+
+        myuser = instance.user
+
+        myuser.username = user_data.get(
+            'username',
+            myuser.username
+        )
+
+        myuser.email = user_data.get(
+            'email',
+            myuser.email
+        )
+
+        myuser.first_name = user_data.get(
+            'first_name',
+            myuser.first_name
+        )
+        myuser.setpassword = user_data.get(
+            'password',
+            myuser.password
+        )
+        myuser.is_admin = user_data.get(
+            'is_admin',
+            True
+        )
+        myuser.user_type = user_data.get(
+            'user_type',
+            'admin'
+        )
+
+        myuser.save()
+        instance.user = validated_data.get('user', instance.user)
+        instance.Admin_Clinic = validated_data.get('Admin_Clinic', instance.Admin_Clinic)
+        instance.save()
+        return instance
