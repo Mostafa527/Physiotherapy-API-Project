@@ -30,3 +30,9 @@ class admin_detail(APIView):
         snippet = self.get_object(pk)
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class adminList(APIView):
+    def get(self,request):
+        admins = MyAdmin.objects.all()
+        data=AdminProfileSerializer(admins,many=True).data
+        return Response(data)
