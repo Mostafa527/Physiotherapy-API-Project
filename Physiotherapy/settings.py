@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'Clinic',
     'Accounts',
-    'MyAdmin'
+    'MyAdmin',
+    'Physiotherapist'
 ]
 
 MIDDLEWARE = [
