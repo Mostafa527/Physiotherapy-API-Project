@@ -58,8 +58,8 @@ class PhysioProfileSerializer(serializers.ModelSerializer):
             'user_type',
             'doctor'
         )
-        
+        myuser.save()
         instance.user = validated_data.get('user', instance.user)
         instance.Clinic_Physio = validated_data.get('Clinic_Physio', instance.Clinic_Physio)
-
+        instance.save()
         return instance
