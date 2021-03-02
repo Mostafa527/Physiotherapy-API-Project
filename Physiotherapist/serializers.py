@@ -26,3 +26,40 @@ class PhysioProfileSerializer(serializers.ModelSerializer):
         physio, created = Physiotherapist.objects.update_or_create(user=user,
                                                                    Clinic_Physio=validated_data.pop('Clinic_Physio'))
         return physio
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user')
+
+        myuser = instance.user
+
+        myuser.username = user_data.get(
+            'username',
+            myuser.username
+        )
+
+        myuser.email = user_data.get(
+            'email',
+            myuser.email
+        )
+
+        myuser.first_name = user_data.get(
+            'first_name',
+            myuser.first_name
+        )
+        myuser.setpassword = user_data.get(
+            'password',
+            myuser.password
+        )
+        myuser.is_patient = user_data.get(
+            'is_doctor',
+            True
+        )
+        myuser.user_type = user_data.get(
+            'user_type',
+            'doctor'
+        )
+        
+        instance.user = validated_data.get('user', instance.user)
+        instance.Clinic_Physio = validated_data.get('Clinic_Physio', instance.Clinic_Physio)
+
+        return instance
