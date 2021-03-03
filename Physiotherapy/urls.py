@@ -6,5 +6,6 @@ urlpatterns = [
    path('admin/', admin.site.urls),
     path('', include('Clinic.urls')),
     path('', include('Accounts.urls')),
-    path('', include('MyAdmin.urls'))
+    path('', include('MyAdmin.urls')),
+    path('', include('Physiotherapists.url'))
 ]
