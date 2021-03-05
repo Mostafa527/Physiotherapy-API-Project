@@ -13,5 +13,5 @@ class physio_detail(APIView):
 
     def get(self, request, pk, format=None):
         physio = self.get_object(pk)
-        serializer = PhysioSerializer(physio)
+        serializer = PhysioProfileSerializer(physio)
         return Response(serializer.data)
