@@ -15,3 +15,12 @@ class physio_detail(APIView):
         physio = self.get_object(pk)
         serializer = PhysioProfileSerializer(physio)
         return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        physio = self.get_object(pk)
+
+        serializer = PhysioProfileSerializer(physio, data=request.data)
+        if serializer.is_valid():
+            
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
