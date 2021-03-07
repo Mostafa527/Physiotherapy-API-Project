@@ -34,10 +34,10 @@ class physio_detail(APIView):
 class PhysioList(APIView):
     def get(self,request):
         physio = Physiotherapist.objects.all()
-        data=PhysioSerializer(physio,many=True).data
+        data=PhysioProfileSerializer(physio,many=True).data
         return Response(data)
     def post(self,request):
-        serializer = PhysioSerializer(data=request.data)
+        serializer = PhysioProfileSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data , status=status.HTTP_201_CREATED)
