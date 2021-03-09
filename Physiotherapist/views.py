@@ -57,7 +57,7 @@ def therpysDetailsByClinic(request,clinic_id):
 
     if request.method == 'GET':
         try:
-            physiotherapist=clinic.pysio_therpists()
+            physiotherapist=clinic.pysio_therpists.all()
         except Physiotherapist.DoesNotExist:
             return Response({'message': 'The Physiotherapist does not exist'}, status=status.HTTP_404_NOT_FOUND)
         physiotherapist_serializer = PhysioProfileSerializer(physiotherapist,many=True)
