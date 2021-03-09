@@ -1,9 +1,13 @@
 
+from Patient.models import Patient
+from rest_framework import status
 from rest_framework.response import Response
+from Clinic.models import Clinic
+from .models import *
 from .serializers import *
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from django.http import Http404
-from rest_framework import status
 
 class physio_detail(APIView):
     def get_object(self, pk):
@@ -42,3 +46,19 @@ class PhysioList(APIView):
             serializer.save()
             return Response(serializer.data , status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def therpysDetailsByClinic(request,clinic_id):
+    try:
+        clinic = Clinic.objects.get(pk=clinic_id)
+    except Clinic.DoesNotExist:
+        return Response({'message': 'The Clinic does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        try:
+            physiotherapist=clinic.pysio_therpists()
+        except Physiotherapist.DoesNotExist:
+            return Response({'message': 'The Physiotherapist does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        physiotherapist_serializer = PhysioProfileSerializer(physiotherapist,many=True)
+        return Response(physiotherapist_serializer.data)
