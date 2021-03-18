@@ -39,7 +39,7 @@ class patient_detail(APIView):
 class PatientList(APIView):
         def get(self, request):
             patients = Patient.objects.all()
-            data = PatientProfileSerializer(patients).data
+            data = PatientProfileSerializer(patients,many=True).data
             return Response(data)
 
         def post(self, request):
