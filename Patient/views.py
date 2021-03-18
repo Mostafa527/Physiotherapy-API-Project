@@ -1,10 +1,11 @@
 
 
+from rest_framework import status
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
 from rest_framework.views import APIView
-
+from rest_framework.decorators import api_view
 from django.http import Http404
 
 class patient_detail(APIView):
@@ -27,4 +28,23 @@ class patient_detail(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        patient = self.get_object(pk)
+        patient.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class PatientList(APIView):
+        def get(self, request):
+            patients = Patient.objects.all()
+            data = PatientProfileSerializer(patients).data
+            return Response(data)
+
+        def post(self, request):
+            serializer = PatientProfileSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
