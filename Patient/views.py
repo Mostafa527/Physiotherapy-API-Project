@@ -48,3 +48,18 @@ class PatientList(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def PatientsDetailsByTherpy(request,physio_id):
+    try:
+        physiotherapist = Physiotherapist.objects.get(pk=physio_id)
+    except Physiotherapist.DoesNotExist:
+        return Response({'message': 'The Physiotherapist does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'POST':
+        try:
+            patient=physiotherapist.patients.all()
+        except Patient.DoesNotExist:
+            return Response({'message': 'The Patient does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        patient_serializer = PatientProfileSerializer(patient,many=True)
+        return Response(patient_serializer.data)
