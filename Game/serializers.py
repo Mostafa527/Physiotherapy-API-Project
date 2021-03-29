@@ -5,6 +5,7 @@ from .models import Game
 from django.contrib.auth.models import User
 from Accounts.models import NewUser
 
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     Game_Owner = serializers.HyperlinkedRelatedField(many=True, view_name='post-detail',read_only=True)
     owner = serializers.ReadOnlyField(source='owner.username')
@@ -29,6 +30,9 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 
         instance.save()
         return instance
+
+
+
 class GameSerializer(serializers.ModelSerializer):
 
 
