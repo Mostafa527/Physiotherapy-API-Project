@@ -6,11 +6,6 @@ from .serializers import *
 from rest_framework.views import APIView
 from rest_framework import status
 from django.http import Http404
-from rest_framework import permissions
-from rest_framework import generics
-from Game.permissions import IsOwnerOrReadOnly
-
-
 
 class game_detail(APIView):
     def get_object(self, pk):
@@ -35,5 +30,5 @@ class game_detail(APIView):
 
     def delete(self, request, pk, format=None):
         game = self.get_object(pk)
-       
+        game.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
