@@ -43,3 +43,18 @@ class ExercisePlanList(APIView):
             serializer.save()
             return Response(serializer.data , status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def ExercisePlanDetailsByPatient(request,patient_id):
+    try:
+        patient = Patient.objects.get(pk=patient_id)
+    except Patient.DoesNotExist:
+        return Response({'message': 'The Patient does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        try:
+            exercise_plan=patient.Patient_Plan.all()
+        except Exercise_Plan.DoesNotExist:
+            return Response({'message': 'No ExercisePlan Existed'}, status=status.HTTP_404_NOT_FOUND)
+        exerciseplan_serializer = Exercise_Plan_Serializer(exercise_plan,many=True)
+        return Response(exerciseplan_serializer.data)
