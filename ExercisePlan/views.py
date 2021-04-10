@@ -17,3 +17,12 @@ class exerciseplan_detail(APIView):
         exercise_plan = self.get_object(pk)
         serializer = Exercise_Plan_Serializer(exercise_plan)
         return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        exercise_plan = self.get_object(pk)
+
+        serializer = Exercise_Plan_Serializer(exercise_plan, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
