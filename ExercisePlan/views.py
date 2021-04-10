@@ -44,7 +44,7 @@ class ExercisePlanList(APIView):
             return Response(serializer.data , status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
+@api_view(['GET'])
 def ExercisePlanDetailsByPatient(request,patient_id):
     try:
         patient = Patient.objects.get(pk=patient_id)
