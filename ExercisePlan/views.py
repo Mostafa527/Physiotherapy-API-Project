@@ -26,3 +26,8 @@ class exerciseplan_detail(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete_(self, request, pk, format=None):
+        exercise_plan = self.get_object(pk)
+        exercise_plan.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
