@@ -58,3 +58,18 @@ def ExercisePlanDetailsByPatient(request,patient_id):
             return Response({'message': 'No ExercisePlan Existed'}, status=status.HTTP_404_NOT_FOUND)
         exerciseplan_serializer = Exercise_Plan_Serializer(exercise_plan,many=True)
         return Response(exerciseplan_serializer.data)
+
+def ValidExercisePlanByPatient(request,physio_id):
+    #Still want to Update
+    try:
+        physiotherapist = Physiotherapist.objects.get(pk=physio_id)
+    except Physiotherapist.DoesNotExist:
+        return Response({'message': 'The Physiotherapist does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'POST':
+        try:
+            patient=physiotherapist.patients.all()
+        except Patient.DoesNotExist:
+            return Response({'message': 'The Patient does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        patient_serializer = PatientProfileSerializer(patient,many=True)
+        return Response(patient_serializer.data)
