@@ -66,7 +66,7 @@ def ValidExercisePlanByPatient(request,physio_id):
     except Physiotherapist.DoesNotExist:
         return Response({'message': 'The Physiotherapist does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == 'POST':
+    if request.method == 'GET':
         try:
             patient=physiotherapist.patients.all()
         except Patient.DoesNotExist:
