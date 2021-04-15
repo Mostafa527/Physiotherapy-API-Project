@@ -9,5 +9,6 @@ urlpatterns = [
     path('', include('MyAdmin.urls')),
     path('', include('Physiotherapist.urls')),
     path('', include('Patient.urls')),
-    path('',include('Game.urls'))
+    path('',include('Game.urls')),
+    path('',include('Session.urls'))
 ]
