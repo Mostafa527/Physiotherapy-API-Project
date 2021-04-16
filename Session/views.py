@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view
 @api_view(['GET'])
 def SessionByExercisePlan(request,exerciseplan_id):
     try:
-        exercise_plan = Exercise_Plan.objects.get(p_k=exerciseplan_id)
+        exercise_plan = Exercise_Plan.objects.get(pk=exerciseplan_id)
     except Exercise_Plan.DoesNotExist:
         return Response({'message': 'The ExercisePlan does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
