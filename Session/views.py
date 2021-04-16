@@ -6,6 +6,8 @@ from .models import Session
 from .serializers import SessionSerializer
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
+
+#GetSessionByExercisePlanID
 @api_view(['GET'])
 def SessionByExercisePlan(request,exerciseplan_id):
     try:
