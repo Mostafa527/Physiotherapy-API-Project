@@ -36,3 +36,15 @@ class SessionList(APIView):
             serializer.save()
             return Response(serializer.data , status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+#Get All Session Object
+@api_view(['GET'])
+def session_detail(request, session_id):
+    try:
+        session =Session.objects.get(pk=session_id)
+    except Session.DoesNotExist:
+        return Response({'message': 'No Sessions'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        session_serializer = SessionSerializer(session)
+        return Response(session_serializer.data)
