@@ -22,3 +22,17 @@ def SessionByExercisePlan(request,exerciseplan_id):
             return Response({'message': 'The Session does not exist'}, status=status.HTTP_404_NOT_FOUND)
         session_serializer =SessionSerializer(session,many=True)
         return Response(session_serializer.data)
+
+
+#GET , Post Requests of Session
+class SessionList(APIView):
+    def get(self,request):
+        sessions = Session.objects.all()
+        data=SessionSerializer(sessions,many=True).data
+        return Response(data)
+    def post(self,request):
+        serializer = SessionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data , status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
