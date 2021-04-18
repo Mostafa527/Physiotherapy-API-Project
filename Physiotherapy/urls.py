@@ -10,5 +10,6 @@ urlpatterns = [
     path('', include('Physiotherapist.urls')),
     path('', include('Patient.urls')),
     path('',include('Game.urls')),
-    path('',include('Session.urls'))
+    path('',include('Session.urls')),
+    path('',include('Scores.urls'))
 ]
