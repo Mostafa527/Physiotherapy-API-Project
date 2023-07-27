@@ -9,4 +9,5 @@ urlpatterns = [
     path('', include('MyAdmin.urls')),
     path('', include('Physiotherapist.urls')),
     path('', include('Patient.urls')),
+    path('',include('Game.urls'))
 ]
